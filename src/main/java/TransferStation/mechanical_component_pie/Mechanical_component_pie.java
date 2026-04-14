@@ -1,8 +1,9 @@
 package TransferStation.mechanical_component_pie;
-
+import item.PartPie;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
@@ -43,17 +44,27 @@ public class Mechanical_component_pie {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "mechanical_component_pie" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+    public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("kayoko_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
 
-    // Creates a new Block with the id "mechanical_component_pie:example_block", combining the namespace and path
-    public static final RegistryObject<Block> EXAMPLE_BLOCK = BLOCKS.register("example_block", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)));
+    public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("kayoko_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties()));
 
-    // Creates a new food item with the id "mechanical_component_pie:example_id", nutrition 1 and saturation 2
-    public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("Part_Pie", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().alwaysEat().nutrition(1).saturationMod(2f).build())));
+    public static final RegistryObject<Item> PART_PIE
+            = ITEMS.register("part_pie", PartPie::new);
+    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register(
+            "mechanical_component_pie_tab",
+            () -> CreativeModeTab.builder()
+                    .withTabsBefore(CreativeModeTabs.COMBAT)
+                    .icon(() -> PART_PIE.get().getDefaultInstance())
+                    .title(Component.translatable("itemGroup.mechanical_component_pie_tab"))
+                    .displayItems((parameters, output) -> {
+                        output.accept(PART_PIE.get());
+                        if (PART_PIE != null) {
+                            output.accept(PART_PIE.get());
+                        }
 
-    // Creates a creative tab with the id "mechanical_component_pie:example_tab" for the example item, that is placed after the combat tab
-    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder().withTabsBefore(CreativeModeTabs.COMBAT).icon(() -> EXAMPLE_ITEM.get().getDefaultInstance()).displayItems((parameters, output) -> {
-        output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
-    }).build());
+                    })
+                    .build()
+    );
 
     public Mechanical_component_pie() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
