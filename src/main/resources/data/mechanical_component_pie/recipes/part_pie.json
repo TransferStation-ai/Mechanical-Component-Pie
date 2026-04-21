@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+
+    { "item": "minecraft:sweet_berries" },
+    { "item": "create:precision_mechanism" }
+
+  ],
+  "result": {
+    "item": "mechanical_component_pie:part_pie",
+    "count": 1
+  }
+}
