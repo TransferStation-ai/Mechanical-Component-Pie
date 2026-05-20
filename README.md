@@ -3,7 +3,7 @@ Statement about this module and its contributors About the module itself and all
 "We discussed this legal statement with
 several people before making the final
 decision on its wording.'
-
+We prefer you to submit questions and suggestions on GitHub, so please submit any questions on the issue tracker
 -----------------------------------------------------------------------------------------
 
 Art resources: CC BY-NC 4.0 license
